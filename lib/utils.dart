@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-const String url_api = "http://192.168.0.103/eduprog/crud/service.php";
+const String url_api = "http://nabita.info/eduprog/crud/service.php";
 
 void showLoading(context, b) async {
   if (b)
