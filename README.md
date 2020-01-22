@@ -4,9 +4,10 @@ Contoh CRUD pada Flutter (PHP +MySQL)
 
 ## Getting Started
 
-**Preview 1**
-![Image Preview Aplikasi 1](source_backend/1.png)
+Preview 1:
+![Image of a preview 1][pre1]
+Preview 2:
+![Image of a preview 2][pre2]
 
-
-**Preview 2**
-![Image Preview Aplikasi 2](source_backend/2.png)
+[pre1]: ./source_backend/1.png
+[pre2]: ./source_backend/2.png
