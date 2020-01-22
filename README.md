@@ -2,11 +2,14 @@
 
 Contoh CRUD pada Flutter (PHP +MySQL)
 
-## Getting Started
+## Preview
 
 Preview 1:
+
 ![Image of a preview 1][pre1]
+
 Preview 2:
+
 ![Image of a preview 2][pre2]
 
 [pre1]: ./source_backend/1.png
