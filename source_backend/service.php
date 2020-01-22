@@ -5,6 +5,7 @@ define("db_password", "");
 define("db_name", "eduprog");
 
 
+
 function get_db_connection(){
     $conn = mysqli_connect(db_servername, db_username, db_password, db_name);
     return $conn;
