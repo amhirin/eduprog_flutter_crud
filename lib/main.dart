@@ -1,9 +1,13 @@
 import 'dart:convert';
 
+import 'package:eduprog_flutter_crud/login.dart';
 import 'package:flutter/material.dart';
 import 'utils.dart' as util;
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -14,7 +18,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Eduprog CRUD Demo'),
+      routes: {
+        '/': (_) => LoginPage(title: 'Login Page'),
+        '/crud': (_) {
+          return MyHomePage(title: 'Eduprog CRUD Demo');
+        }
+      },
     );
   }
 }
@@ -58,126 +67,128 @@ class _DialogEditSiswaState extends State<DialogEditSiswa> {
       contentPadding: EdgeInsets.fromLTRB(2, 2, 2, 2),
       titlePadding: EdgeInsets.fromLTRB(10, 10, 5, 0),
       title: Text(widget.title),
-      content: DefaultTextStyle(
-        style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.8)),
-        child: Padding(
-          padding: EdgeInsets.all(10),
-          child: Container(
-            width: 350,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(10),
-                  color: Colors.grey.withOpacity(0.2),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        alignment: Alignment.topRight,
-                        width: 80,
-                        child: Text("ID : "),
-                      ),
-                      SizedBox(width: 5,),
-
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.topLeft,
-                          child: Text(isEdit() ? widget.rowSiswa["id"].toString() : "#"),
+      content: SingleChildScrollView(
+        child: DefaultTextStyle(
+          style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, color: Colors.black.withOpacity(0.8)),
+          child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Container(
+              width: 350,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    color: Colors.grey.withOpacity(0.2),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.topRight,
+                          width: 80,
+                          child: Text("ID : "),
                         ),
-                      )
-                    ],
+                        SizedBox(width: 5,),
+
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            child: Text(isEdit() ? widget.rowSiswa["id"].toString() : "#"),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  color: Colors.grey.withOpacity(0.3),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        alignment: Alignment.topRight,
-                        width: 80,
-                        child: Text("Nama : "),
-                      ),
-                      SizedBox(width: 5,),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    color: Colors.grey.withOpacity(0.3),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.topRight,
+                          width: 80,
+                          child: Text("Nama : "),
+                        ),
+                        SizedBox(width: 5,),
 
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.topLeft,
-                          child: TextField(
-                            decoration: InputDecoration(
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            child: TextField(
+                              decoration: InputDecoration(
 
+                              ),
+                              controller: _txtNama,
+                              minLines: 1,
+                              maxLines: 2,
                             ),
-                            controller: _txtNama,
-                            minLines: 1,
-                            maxLines: 2,
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  color: Colors.grey.withOpacity(0.2),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        alignment: Alignment.topRight,
-                        width: 80,
-                        child: Text("Alamat : "),
-                      ),
-                      SizedBox(width: 5,),
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.topLeft,
-                          child: TextField(
-                            controller: _txtAlamat,
-                            minLines: 2,
-                            maxLines: 4,
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    color: Colors.grey.withOpacity(0.2),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.topRight,
+                          width: 80,
+                          child: Text("Alamat : "),
+                        ),
+                        SizedBox(width: 5,),
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            child: TextField(
+                              controller: _txtAlamat,
+                              minLines: 2,
+                              maxLines: 4,
+                            ),
                           ),
-                        ),
-                      )
-                    ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-                Container(
-                  padding: EdgeInsets.all(10),
-                  color: Colors.grey.withOpacity(0.3),
-                  child: Row(
-                    children: <Widget>[
-                      Container(
-                        alignment: Alignment.topRight,
-                        width: 80,
-                        child: Text("JK : "),
-                      ),
-                      SizedBox(width: 5,),
-                      Expanded(
-                        child: Container(
-                          alignment: Alignment.topLeft,
-                          child: DropdownButton(items: [
-                            DropdownMenuItem(
-                              value: "L",
-                              child: Text("Laki-Laki"),
-                            ),DropdownMenuItem(
-                              value: "P",
-                              child: Text("Perempuan"),
-                            ),],
-                          value: _valSelectedJK,
-                          underline: Container(
-                            height: 2,
-                            color: Colors.grey,
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    color: Colors.grey.withOpacity(0.3),
+                    child: Row(
+                      children: <Widget>[
+                        Container(
+                          alignment: Alignment.topRight,
+                          width: 80,
+                          child: Text("JK : "),
+                        ),
+                        SizedBox(width: 5,),
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            child: DropdownButton(items: [
+                              DropdownMenuItem(
+                                value: "L",
+                                child: Text("Laki-Laki"),
+                              ),DropdownMenuItem(
+                                value: "P",
+                                child: Text("Perempuan"),
+                              ),],
+                            value: _valSelectedJK,
+                            underline: Container(
+                              height: 2,
+                              color: Colors.grey,
+                            ),
+                            onChanged: (String newValue) {
+                              setState(() {
+                                _valSelectedJK = newValue;
+                              });
+                            },isDense: false,),
                           ),
-                          onChanged: (String newValue) {
-                            setState(() {
-                              _valSelectedJK = newValue;
-                            });
-                          },isDense: false,),
-                        ),
-                      )
-                    ],
-                  ),
-                )
-              ],
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
@@ -192,8 +203,8 @@ class _DialogEditSiswaState extends State<DialogEditSiswa> {
             String _alamat = _txtAlamat.text;
             String _jk = _valSelectedJK;
             Map<String, String> mRequest = {
-              "_user": "", //. dialokasikan
-              "_session": "", //. dialokasikan
+              "_user": util.UserData.userName,
+              "_session": util.UserData.userSession,//. dialokasikan
               "cmd": isEdit() ? "update_data" : "insert_data",
               "id": _id, //. ignored when *new* in server
               "nama": _nama,
@@ -251,10 +262,42 @@ class _MyHomePageState extends State<MyHomePage> {
   TextEditingController _txtSearch = TextEditingController();
   bool _flagAllowSearch = true;
 
-  Future<bool> _loadData(String search) async{
+  Future<bool> onExitApp(BuildContext context) {
+    return showDialog(
+      context: context,
+      child: AlertDialog(
+        title: Text('Confirm Exit Page'),
+        content: Text('Do you want to exit and logout this page?'),
+        actions: <Widget>[
+          FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text('No'),
+          ),
+          FlatButton(
+            onPressed: (){
+              //. logout dulu
+              Map<String, String> mRequest = {
+                "cmd": "logout",
+                "_user": util.UserData.userName,
+                "_session": util.UserData.userSession,
+              };
+              util.httpPost(util.url_api, mRequest).then((data){
+                Navigator.of(context).pop(true);
+              });
+
+            },
+            child: Text('Yes'),
+          ),
+        ],
+      ),
+    ) ??
+        false;
+  }
+
+  Future<dynamic> _loadData(String search) async{
     Map<String, String> mRequest = {
-      "_user": "",
-      "_session": "",
+      "_user": util.UserData.userName,
+      "_session": util.UserData.userSession,
       "cmd": "get_all_data",
       "search": search
     };
@@ -269,9 +312,12 @@ class _MyHomePageState extends State<MyHomePage> {
       var v_data =  jObject["data"];
       if (v_status == 1){ //. success
         _lstDataSiswa = v_data;
-      }else{
+      }else if(v_status == -99){ //. expired
         _lstDataSiswa = [];
-      }
+        return v_desc;
+      }else{
+      _lstDataSiswa = [];
+    }
     };
 
     return true;
@@ -298,6 +344,17 @@ class _MyHomePageState extends State<MyHomePage> {
               setState(() {
 
               });
+              if (d is String){
+                util.showAlert(context, d, "Alert").then((d){
+                  Navigator.popUntil(context, ModalRoute.withName("/"));
+                });
+              }else if(d is bool){
+
+              }
+            });
+          }else if (lstRet[0] == "-99"){ //. expired
+            util.showAlert(context, _statusText, "Alert").then((d){
+              Navigator.popUntil(context, ModalRoute.withName("/"));
             });
           }else{
             //. refresh tampilan
@@ -333,6 +390,13 @@ class _MyHomePageState extends State<MyHomePage> {
               setState(() {
 
               });
+              if (d is String){
+                util.showAlert(context, d, "Alert").then((d){
+                  Navigator.popUntil(context, ModalRoute.withName("/"));
+                });
+              }else if(d is bool){
+
+              }
             });
           }else{
             //. refresh tampilan
@@ -353,6 +417,13 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
 
       });
+      if (d is String){
+        util.showAlert(context, d, "Alert").then((d){
+          Navigator.popUntil(context, ModalRoute.withName("/"));
+        });
+      }else if(d is bool){
+
+      }
     });
     super.initState();
   }
@@ -437,8 +508,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () {
                             String _id = _r["id"].toString();
                             Map<String, String> mRequest = {
-                              "_user": "",
-                              "_session": "",
+                              "_user": util.UserData.userName,
+                              "_session": util.UserData.userSession,
                               "cmd": "delete_data_by_id",
                               "id": _id
                             };
@@ -457,6 +528,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                     setState(() {
 
                                     });
+                                    if (d is String){
+                                      util.showAlert(context, d, "Alert").then((d){
+                                        Navigator.popUntil(context, ModalRoute.withName("/"));
+                                      });
+                                    }else if(d is bool){
+
+                                    }
                                   });
 
                                 });
@@ -556,93 +634,110 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Column(
-        children: <Widget>[
-          Container(
-            height: 50,
-            child: Row(
-              children: <Widget>[
-                Container( //. biar seimbang
-                  width: 100,
-                ),
-                Expanded(
-                  child: Center(child: Text("Data Siswa", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),)),
-                ),
-                Container(
-                  width: 100,
-                  child: Row(
-                    children: <Widget>[
-                      IconButton(icon: Icon(Icons.refresh, color: Colors.grey,), onPressed: (){
-                        util.showLoading(context, true);
-                        _loadData(_txtSearch.text).then((data){
-                          util.showLoading(context, false);
-                          setState(() {
-
-                          });
-                        });
-                      },),
-                      IconButton(icon: Icon(Icons.add, color: Colors.orange,), onPressed: (){
-                        _showNewDialog();
-                      },),
-                    ],
+    return WillPopScope(
+      onWillPop: () => onExitApp(context),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Column(
+          children: <Widget>[
+            Container(
+              height: 50,
+              child: Row(
+                children: <Widget>[
+                  Container( //. biar seimbang
+                    width: 100,
                   ),
-                )
+                  Expanded(
+                    child: Center(child: Text("Data Siswa", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),)),
+                  ),
+                  Container(
+                    width: 100,
+                    child: Row(
+                      children: <Widget>[
+                        IconButton(icon: Icon(Icons.refresh, color: Colors.grey,), onPressed: (){
+                          util.showLoading(context, true);
+                          _loadData(_txtSearch.text).then((d){
+                            util.showLoading(context, false);
+                            setState(() {
 
-              ],
+                            });
+                            if (d is String){
+                              util.showAlert(context, d, "Alert").then((d){
+                                Navigator.popUntil(context, ModalRoute.withName("/"));
+                              });
+                            }else if(d is bool){
+
+                            }
+                          });
+                        },),
+                        IconButton(icon: Icon(Icons.add, color: Colors.orange,), onPressed: (){
+                          _showNewDialog();
+                        },),
+                      ],
+                    ),
+                  )
+
+                ],
+              ),
             ),
-          ),
-          Container(
-            height: 50,
-            child: TextField(
-                controller: _txtSearch,
-                onChanged: (filterText){
-                  //. supaya efektif pencarianya, pakai timeout bukan per karakter
-                  if (_flagAllowSearch == true){
-                    _flagAllowSearch = false;
+            Container(
+              height: 50,
+              child: TextField(
+                  controller: _txtSearch,
+                  onChanged: (filterText){
+                    //. supaya efektif pencarianya, pakai timeout bukan per karakter
+                    if (_flagAllowSearch == true){
+                      _flagAllowSearch = false;
 
-                    Future.delayed(Duration(milliseconds: 500), (){
-                      _flagAllowSearch = true;
-                      setState(() {
-                        _ready = false;
-                      });
-                      _loadData(_txtSearch.text).then((d){
+                      Future.delayed(Duration(milliseconds: 500), (){
+                        _flagAllowSearch = true;
                         setState(() {
-                          _ready = true;
+                          _ready = false;
                         });
+                        _loadData(_txtSearch.text).then((d){
+                          setState(() {
+                            _ready = true;
+                          });
+                          if (d is String){
+                            util.showAlert(context, d, "Alert").then((d){
+                              Navigator.popUntil(context, ModalRoute.withName("/"));
+                            });
+                          }else if(d is bool){
+
+                          }
+                        });
+
                       });
+                    }
 
-                    });
-                  }
-
-                },
-                style: TextStyle(color: Colors.black87),
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                    prefixIcon: Icon(Icons.search),
-                    prefixStyle: TextStyle(color: Colors.blue),
-                    hintText: "Cari siswa..",
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red.withOpacity(0.2), width: 32.0),
-                        borderRadius: BorderRadius.circular(0.0)),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.red.withOpacity(0.2), width: 32.0),
-                        borderRadius: BorderRadius.circular(0.0)))
+                  },
+                  style: TextStyle(color: Colors.black87),
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                      prefixIcon: Icon(Icons.search),
+                      prefixStyle: TextStyle(color: Colors.blue),
+                      hintText: "Cari siswa..",
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red.withOpacity(0.2), width: 32.0),
+                          borderRadius: BorderRadius.circular(0.0)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.red.withOpacity(0.2), width: 32.0),
+                          borderRadius: BorderRadius.circular(0.0)))
+              ),
             ),
-          ),
-          Expanded(child: _getTable())
-        ],
+            Expanded(child: _getTable())
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: (){},
+          tooltip: 'Tambah Siswa',
+          child: Icon(Icons.add_box),
+          backgroundColor: Colors.blueAccent,
+        ), // This trailing comma makes auto-formatting nicer for build methods.
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-        tooltip: 'Tambah Siswa',
-        child: Icon(Icons.add_box),
-        backgroundColor: Colors.blueAccent,
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
