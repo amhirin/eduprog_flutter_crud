@@ -5,9 +5,9 @@ const String url_api = "http://nabita.info/eduprog/crud/service.php";
 //const String url_api = "http://192.168.0.103/eduprog/crud/service.php";
 
 class UserData {
-  static String userName;
-  static String userFullName;
-  static String userSession;
+  static String userName = "";
+  static String userFullName = "";
+  static String userSession = "";
 }
 
 

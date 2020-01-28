@@ -3,9 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'utils.dart' as util;
 
 class LoginPage extends StatefulWidget {
@@ -25,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   //. flag loading
   bool _isLoading = false;
   bool _checkSession = true;
-
+  int _defaultIndex = 0;
   @override
   Widget build(BuildContext context) {
 
@@ -115,6 +112,36 @@ class _LoginPageState extends State<LoginPage> {
 
                     SizedBox(height: 32,),
                     Container(
+                      child: Text("Pilih Halaman"),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      child: Wrap(
+                        spacing: 10,
+                        children: <Widget>[
+                          ChoiceChip(
+                            selected: _defaultIndex == 0 ? true : false,
+                            label: Text("    CRUD    "), // your custom label widget
+                            onSelected: (b){
+                              setState(() {
+                                _defaultIndex = 0;
+                              });
+                            },
+                          ),
+                          ChoiceChip(
+                            selected: _defaultIndex == 1 ? true : false,
+                            label: Text("Upload File"),
+                            onSelected: (b){
+                              setState(() {
+                                _defaultIndex = 1;
+                              });
+                            },// your custom label widget
+                          ),
+
+                        ],
+                      ),
+                    ),
+                    Container(
                       //height: 130,
                       width: 350,
                       decoration: BoxDecoration(
@@ -194,7 +221,10 @@ class _LoginPageState extends State<LoginPage> {
                                       //. save to shared pref (untuk autologin, jika session masih valid)
                                       util.setConfigUser(util.UserData.userName);
                                       util.setConfigSession(util.UserData.userSession);
-                                      Navigator.pushNamed(context, "/crud");
+                                      if (_defaultIndex  == 0)
+                                        Navigator.pushNamed(context, "/crud");
+                                      else
+                                        Navigator.pushNamed(context, "/upload");
                                     }else{
                                       //. failed
                                       util.showAlert(context, vDesc, "Error");

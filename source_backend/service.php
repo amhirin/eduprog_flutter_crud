@@ -3,6 +3,7 @@ define("db_servername", "localhost");
 define("db_username", "root");
 define("db_password", "");
 define("db_name", "eduprog");
+define("base_url","http://nabita.info/eduprog/crud/");
 
 //. session timeout in seconds
 define("cfg_session_timeout", 60); // 60 detik (bisa diganti nantinya)
@@ -89,6 +90,28 @@ if ( $_cmd == "login"){
 		if ($_cmd == "check_session"){ //. untuk cek session autologin
 			$response["status"] = 1;
 			$response["desc"] = "Success.";
+		}else if ($_cmd == "upload_file"){
+			$file_data   = post_param("filedata");
+			$file_name   = post_param("filename");
+			if (!empty($file_data)){
+				$file_data = base64_decode($file_data);
+				$this_dir = dirname(__FILE__);
+				$file_path = '/upload/' . $file_name . "_" . substr(md5(uniqid()), 1,5) . ".file";
+				$res = file_put_contents($this_dir . $file_path, $file_data); //. simpan ke folder upload, relative. tambahi random dan extensi .file
+				if ($res){
+					$file_url = base_url . substr($file_path, 1);
+					$response["status"] = 1;
+					$response["desc"] = "Upload success.";
+					$response["data"] = $file_url;
+				}else{
+					$response["status"] = 0;
+					$response["desc"] = "Upload file failed.";
+				}
+			}else{
+				$response["status"] = 0;
+				$response["desc"] = "Upload file failed.";
+			}
+
 		}else if ($_cmd == "get_all_data"){
 			$_search = post_param("search");
 			if (is_null($_search)) $_search  = "";

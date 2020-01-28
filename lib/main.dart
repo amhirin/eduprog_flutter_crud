@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:eduprog_flutter_crud/login.dart';
+import 'package:eduprog_flutter_crud/upload.dart';
 import 'package:flutter/material.dart';
 import 'utils.dart' as util;
 
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
         '/': (_) => LoginPage(title: 'Login Page'),
         '/crud': (_) {
           return MyHomePage(title: 'Eduprog CRUD Demo');
-        }
+        },
+        '/upload': (_) => UploadFilePage()
       },
     );
   }
