@@ -120,6 +120,7 @@ class _UploadFilePageState extends State<UploadFilePage> {
                               String fileName = path.split("/").last;;
                               setState(() {
                                 _statusUpload = "Uploading..";
+                                _pathInWeb[path] = "Uploading..";
                               });
                               uploadFile(base64File, fileName).then((result){
                                 List<String> lstRet = result.split("#");
@@ -127,7 +128,7 @@ class _UploadFilePageState extends State<UploadFilePage> {
                                   if (lstRet[0] == "1") {
                                     //. kalau status = 1, artinya berhasil
                                     _pathInWeb[path] = lstRet[2];
-                                    _statusUpload = "Upload success..";
+                                    _statusUpload = "Upload success..(" + (i + 1).toString() + ")";
 
                                   }else if (lstRet[0] == "-99"){ //. expired
                                     util.showAlert(context, lstRet[1], "Alert").then((d){
@@ -157,6 +158,7 @@ class _UploadFilePageState extends State<UploadFilePage> {
                             String fileName = path.split("/").last;;
                             setState(() {
                               _statusUpload = "Uploading..";
+                              _pathInWeb[path] = "Uploading..";
                             });
                             uploadFile(base64File, fileName).then((result){
                               List<String> lstRet = result.split("#");
